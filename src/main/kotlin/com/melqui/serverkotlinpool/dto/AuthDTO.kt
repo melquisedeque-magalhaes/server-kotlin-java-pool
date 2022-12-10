@@ -2,7 +2,7 @@ package com.melqui.serverkotlinpool.dto
 
 import javax.validation.constraints.NotEmpty
 
-data class authDTO(
+data class AuthDTO(
     @field: NotEmpty
     val access_token: String
 )
