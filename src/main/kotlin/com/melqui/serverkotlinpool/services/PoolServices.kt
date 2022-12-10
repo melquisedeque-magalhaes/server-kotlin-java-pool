@@ -12,7 +12,7 @@ class PoolServices(private var poolRepository: PoolRepository) {
 
         val codeGenerate:String = UUID.randomUUID().toString()
 
-        val newPool = poolRepository.save(Pool(title = createPoolDTO.name, code = codeGenerate))
+        val newPool = poolRepository.save(Pool(title = createPoolDTO.title, code = codeGenerate))
 
         return newPool.code
     }
