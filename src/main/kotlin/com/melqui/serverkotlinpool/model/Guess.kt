@@ -1,6 +1,5 @@
 package com.melqui.serverkotlinpool.model
 
-import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
