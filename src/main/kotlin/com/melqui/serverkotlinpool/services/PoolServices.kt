@@ -4,7 +4,7 @@ import com.melqui.serverkotlinpool.dto.CreatePoolDTO
 import com.melqui.serverkotlinpool.model.Pool
 import com.melqui.serverkotlinpool.repository.PoolRepository
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class PoolServices(private var poolRepository: PoolRepository) {
@@ -14,4 +14,9 @@ class PoolServices(private var poolRepository: PoolRepository) {
 
         poolRepository.save(Pool(title = createPoolDTO.name, code = codeGenerate))
     }
+
+    fun list(): MutableIterable<Pool> {
+        return poolRepository.findAll()
+    }
+
 }

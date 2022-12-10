@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name="users")
 data class User (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val id: String? = null,
 
     @Column(unique = true)
     val googleId: String,

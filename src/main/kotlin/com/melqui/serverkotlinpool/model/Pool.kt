@@ -7,7 +7,7 @@ import javax.persistence.*
 @Table(name="pool")
 data class Pool (
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int? = null,
+    val id: String? = null,
 
     @Column
     val title: String,

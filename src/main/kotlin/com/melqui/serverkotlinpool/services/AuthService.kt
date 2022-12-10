@@ -4,7 +4,6 @@ import com.melqui.serverkotlinpool.dto.UserGoogleResponse
 import com.melqui.serverkotlinpool.model.User
 import com.melqui.serverkotlinpool.repository.UserRepository
 import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import java.net.URI
@@ -15,7 +14,11 @@ import java.util.*
 
 
 @Service
-class AuthService(private var userRepository: UserRepository, private var userService: UserService) {
+class AuthService(
+    private var userRepository: UserRepository,
+    private var userService: UserService,
+    private var tokenAuthenticationService: TokenAuthenticationService
+) {
     fun auth(accessToken: String): Any {
         try {
             val accessTokenComplete:String = "Bearer $accessToken"
@@ -35,9 +38,7 @@ class AuthService(private var userRepository: UserRepository, private var userSe
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
 
             if(response.statusCode() == 401){
-                throw ResponseStatusException(
-                    HttpStatus.UNAUTHORIZED, "Token invalido tente novamente!",
-                )
+                throw ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token invalido tente novamente!")
             }
 
             val userParseList =response.body().split(",", ":").map{value -> value.trim()}
@@ -59,15 +60,15 @@ class AuthService(private var userRepository: UserRepository, private var userSe
                     avatarUrl = userParse.picture,
                 )
 
-                userService.createUser(user = newUser)
+                val user =userService.createUser(user = newUser)
 
-                return newUser
             }
 
-            return user
+            return tokenAuthenticationService.addAuthentication(userParse.name, userParse.picture)
+
 
         }catch(err: ResponseStatusException) {
-            return ResponseEntity.status(err.status).body(err.message)
+           throw ResponseStatusException(err.status, err.message)
         }
     }
 }
