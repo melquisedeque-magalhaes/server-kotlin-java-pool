@@ -60,7 +60,7 @@ class AuthService(
                     avatarUrl = userParse.picture,
                 )
 
-                val user =userService.createUser(user = newUser)
+                val user =userService.createUser(newUser)
 
             }
 
