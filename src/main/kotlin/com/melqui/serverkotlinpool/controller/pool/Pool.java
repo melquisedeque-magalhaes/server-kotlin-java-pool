@@ -5,6 +5,8 @@ import com.melqui.serverkotlinpool.services.PoolServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.Map;
 
 @RestController
 @RequestMapping("pools")
@@ -12,9 +14,11 @@ class Pool {
     @Autowired
     private PoolServices poolServices;
     @PostMapping
-    public void createPool(@RequestBody @Valid CreatePoolDTO createPoolDTO) {
+    public Map<String, String> createPool(@RequestBody @Valid CreatePoolDTO createPoolDTO) {
 
-        this.poolServices.create(createPoolDTO);
+        var codePool = this.poolServices.create(createPoolDTO);
+
+        return Collections.singletonMap("code", codePool);
     }
     @GetMapping
     public Iterable<com.melqui.serverkotlinpool.model.Pool> listPools() {

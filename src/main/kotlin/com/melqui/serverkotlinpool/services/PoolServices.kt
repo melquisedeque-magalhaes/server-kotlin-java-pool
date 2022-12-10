@@ -8,11 +8,13 @@ import java.util.*
 
 @Service
 class PoolServices(private var poolRepository: PoolRepository) {
-    fun create(createPoolDTO: CreatePoolDTO) {
+    fun create(createPoolDTO: CreatePoolDTO): String {
 
         val codeGenerate:String = UUID.randomUUID().toString()
 
-        poolRepository.save(Pool(title = createPoolDTO.name, code = codeGenerate))
+        val newPool = poolRepository.save(Pool(title = createPoolDTO.name, code = codeGenerate))
+
+        return newPool.code
     }
 
     fun list(): MutableIterable<Pool> {
