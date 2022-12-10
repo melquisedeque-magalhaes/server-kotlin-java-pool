@@ -15,13 +15,11 @@ class TokenAuthenticationService {
     val TOKEN_PREFIX = "Bearer"
     val HEADER_STRING = "Authorization"
     fun addAuthentication(name: String, avatarUrl: String): String {
-        val JWT = Jwts.builder()
+        return Jwts.builder()
             .setSubject(name + avatarUrl)
             .setExpiration(Date(System.currentTimeMillis() + EXPIRATION_TIME))
             .signWith(SignatureAlgorithm.HS512, SECRET)
             .compact()
-
-        return "$TOKEN_PREFIX $JWT"
     }
 
     fun getAuthentication(request: HttpServletRequest): String? {
